@@ -9,8 +9,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  border: #000 solid 1px;
+  border-radius: 5px;
+  padding: 0.5rem;
 }
-
+a:hover {
+  color: rgb(31, 64, 247);
+  border: #00f solid 1px;
+}
 * {
   box-sizing: border-box;
 }
