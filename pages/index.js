@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useState } from 'react';
 import { useAuth } from "../hooks/useAuth";
 import styles from '../styles/Home.module.css';
@@ -73,55 +74,64 @@ const Login = () => {
     }
 
     return (
-        <div className={styles.container}>
-            <main className={styles.main}>
-                <h1 className={styles.title}>
-                    hiperAuth
-                </h1>
-                <p className={styles.description}>                
-                <code className={styles.code}>nextjs+firebase+strapi</code>
-                </p>
-                <div className={styles.card}>
-                    {!user ? <button onClick={signInWithGoogle} className={styles.input}>Entrar com Google</button> : <>Olá, {user.name} <button onClick={()=>signOutGoogle('/')} className={styles.input}>Sair</button></>}
-                                        
-                    <form onSubmit={option=='access' ? sendAccess : option=='signup' ? sendSignup : sendPassword} action="#">
-                    {!user && <>
-                        <div>--------- Ou ---------</div>
-                        <br />
-                        <div className={styles.inputs}>
-                            <div className={styles.subtitle}>{option=='access' ? 'Acessar' : option=='password' ? 'Redefinir Senha' : 'Cadastrar Usuário' }</div>
-                            <input type="text" onChange={e => setEmail(e.target.value)} name="user" className={styles.input} placeholder='Email' />
-                            {option!='password' && <input type="password" onChange={e => setPassword(e.target.value)} name="password" className={styles.input} placeholder='Senha' />}
-                            <button type="submit" className={styles.input}>{option=='access' ? 'Entrar' : option=='password' ? 'Enviar' : 'Cadastrar' }</button>
-                        </div>
-                        <div className={styles.response} style={response[1]!='e' ? { color: '#0a0' } : {} }>
-                            {response[0]}
-                        </div>
-                        <hr />
-                        <div>Mais opções</div>
-                        <br />
-                        <div>
-                            {option=='access' && <div className={styles.links}>
-                                <a href="#" onClick={()=>[setOption('signup'),setResponse([])]}>Cadastro</a>
-                                <a href="#" onClick={()=>[setOption('password'),setResponse([])]}>Redefinir a senha</a>
-                            </div>}
-                            {option=='signup' && <div className={styles.links}>
-                                <a href="#" onClick={()=>[setOption('access'),setResponse([])]}>Acesso</a>
-                                <a href="#" onClick={()=>[setOption('password'),setResponse([])]}>Redefinir senha</a>
-                            </div>}
-                            {option=='password' && <div className={styles.links}>  
-                                <a href="#" onClick={()=>[setOption('signup'),setResponse([])]}>Cadastro</a>
-                                <a href="#" onClick={()=>[setOption('access'),setResponse([])]}>Acesso</a>
-                            </div>}
-                        </div>
-                        </>}
-                    </form>                    
-                </div>
-            </main>
-            <footer className={styles.footer}>
-                Powered by hiperlogado
-            </footer>
-        </div> 
+        <>
+            {authLoad && <style jsx global>{`
+            body {
+                overflow: hidden;
+            }
+            `}</style>}
+            {authLoad && <div className={styles.backdrop}></div>}
+            <div className={styles.container}>            
+                <main className={styles.main}>
+                    <h1 className={styles.title}>
+                        hiperAuth
+                    </h1>
+                    <p className={styles.description}>                
+                    <code className={styles.code}>nextjs+firebase+strapi</code>
+                    </p>
+                    <div className={styles.card}>
+                        {authLoad && <div className={styles.loading}><Image src="/loading.gif" alt="Loading" width={50} height={50} /></div>}
+                        {!user ? <button onClick={signInWithGoogle} className={styles.input}>Entrar com Google</button> : <>Olá, {user.name} <button onClick={()=>signOutGoogle('/')} className={styles.input}>Sair</button></>}
+                                            
+                        <form onSubmit={option=='access' ? sendAccess : option=='signup' ? sendSignup : sendPassword} action="#">
+                        {!user && <>
+                            <div>--------- Ou ---------</div>
+                            <br />
+                            <div className={styles.inputs}>
+                                <div className={styles.subtitle}>{option=='access' ? 'Acessar' : option=='password' ? 'Redefinir Senha' : 'Cadastrar Usuário' }</div>
+                                <input type="text" onChange={e => setEmail(e.target.value)} name="user" className={styles.input} placeholder='Email' />
+                                {option!='password' && <input type="password" onChange={e => setPassword(e.target.value)} name="password" className={styles.input} placeholder='Senha' />}
+                                <button type="submit" className={styles.input}>{option=='access' ? 'Entrar' : option=='password' ? 'Enviar' : 'Cadastrar' }</button>
+                            </div>
+                            <div className={styles.response} style={response[1]!='e' ? { color: '#0a0' } : {} }>
+                                {response[0]}
+                            </div>
+                            <hr />
+                            <div>Mais opções</div>
+                            <br />
+                            <div>
+                                {option=='access' && <div className={styles.links}>
+                                    <a href="#" onClick={()=>[setOption('signup'),setResponse([])]}>Cadastro</a>
+                                    <a href="#" onClick={()=>[setOption('password'),setResponse([])]}>Redefinir a senha</a>
+                                </div>}
+                                {option=='signup' && <div className={styles.links}>
+                                    <a href="#" onClick={()=>[setOption('access'),setResponse([])]}>Acesso</a>
+                                    <a href="#" onClick={()=>[setOption('password'),setResponse([])]}>Redefinir senha</a>
+                                </div>}
+                                {option=='password' && <div className={styles.links}>  
+                                    <a href="#" onClick={()=>[setOption('signup'),setResponse([])]}>Cadastro</a>
+                                    <a href="#" onClick={()=>[setOption('access'),setResponse([])]}>Acesso</a>
+                                </div>}
+                            </div>
+                            </>}
+                        </form>                    
+                    </div>
+                </main>
+                <footer className={styles.footer}>
+                    Powered by hiperlogado
+                </footer>
+            </div> 
+        </>
     )
  
 }

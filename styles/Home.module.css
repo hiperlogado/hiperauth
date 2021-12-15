@@ -1,5 +1,5 @@
 .container {
-  padding: 0 2rem;
+  padding: 0 2rem;  
 }
 
 .main {
@@ -137,6 +137,18 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.loading {
+  position: absolute;
+  align-self: center;
+}
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 2560px;
+  height: 2000px;
+  position: absolute;  
 }
 
 @media (max-width: 600px) {

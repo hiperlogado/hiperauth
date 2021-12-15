@@ -12,6 +12,8 @@ export function AuthProvider({children}){
     const [authLoad, setAuthLoad] = useState(true);
 
     const signInWithGoogle = async (url) => {
+
+        setAuthLoad(true)
                 
         const signIn = await signInWithPopup(auth,provider)
             .catch(e => console.log(e)); 
@@ -56,7 +58,9 @@ export function AuthProvider({children}){
                 return;
             }
 
-            const { displayName, photoURL, uid, email } = userAuth;   
+            setAuthLoad(true)
+
+            const { photoURL, uid, email } = userAuth;   
 
             const getMe = async () => {
 
@@ -78,9 +82,9 @@ export function AuthProvider({children}){
             }
             Cookies.get('tk') && getMe()
 
-        })
-        
-        setAuthLoad(false)
+            setAuthLoad(false)
+
+        })        
 
         return () => {
            authenticated()
@@ -90,6 +94,8 @@ export function AuthProvider({children}){
 
     const signOutGoogle = (url) => {
 
+        setAuthLoad(true)
+
         signOut(auth).then(() => {
             Cookies.remove('tk')
             setUser()            
@@ -97,19 +103,23 @@ export function AuthProvider({children}){
             console.log(error)
         });
 
+        setAuthLoad(false)
+
     }
 
     async function createUser(email, password) {
         
+        setAuthLoad(true)
         const result = await createUserWithEmailAndPassword(auth,email,password)
             .catch(error => { return error.code });
         setAuthLoad(false)
-        return result        
+        return result
 
     }
 
     async function loginUser(email, password) {
         
+        setAuthLoad(true)
         const result = await signInWithEmailAndPassword(auth,email,password) 
             .catch(error => { return error.code });
 
@@ -146,7 +156,8 @@ export function AuthProvider({children}){
     }
 
     async function resetPass(email, password) {
-                        
+    
+        setAuthLoad(true)
         const result = await sendPasswordResetEmail(auth,email,password)
             .catch(error => { return error.code });        
         setAuthLoad(false)
@@ -154,7 +165,7 @@ export function AuthProvider({children}){
         return result
 
     }
-
+    
     return (
         <AuthContext.Provider value={{
             user,
